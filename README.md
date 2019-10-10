@@ -1,0 +1,2 @@
+# ApiDDD.NetCore
+Api base
