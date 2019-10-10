@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi
+namespace Domain.Entities.UsersAgg
 {
-    public class Users
+    public class User
     {
         [Key]
         public int Id { get; set; }
