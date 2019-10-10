@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TortosaApi.Domain", "Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TortosaApi.Infrastructure", "Infrastructure\TortosaApi.Infrastructure.csproj", "{86A9CDD7-2C97-4D55-80F3-67E8E797BF00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestToChangeCompilationOrder", "Test\TestToChangeCompilationOrder.csproj", "{F94C2C91-3F03-4B0D-AB2F-A3A34F5EFA55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{86A9CDD7-2C97-4D55-80F3-67E8E797BF00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86A9CDD7-2C97-4D55-80F3-67E8E797BF00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86A9CDD7-2C97-4D55-80F3-67E8E797BF00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94C2C91-3F03-4B0D-AB2F-A3A34F5EFA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94C2C91-3F03-4B0D-AB2F-A3A34F5EFA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94C2C91-3F03-4B0D-AB2F-A3A34F5EFA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94C2C91-3F03-4B0D-AB2F-A3A34F5EFA55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

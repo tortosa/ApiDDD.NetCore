@@ -2,24 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Application.AppServices;
-using Application.Interfaces;
-using Domain.Entities.UsersAgg;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NetCore.AutoRegisterDi;
 
 namespace WebApi
 {
     public class Startup
     {
+
+        private const string APP_SERVICE_SUFFIX = "AppService";
+        private const string REPOSITORY_SUFFIX = "Repository";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -52,21 +48,29 @@ namespace WebApi
              */
 
             //services.AddScoped<IUserAppService, UserAppService>();
-            Assembly[] myAssemblies = System.Threading.Thread.GetDomain().GetAssemblies();
+
+
             // Forma dinámica con el injector de .Net Core (veo problematico tener que referenciar Infrastructure aunque solamente sea para esto)
-            IList<Assembly> assemblies = new List<Assembly>
+            var assemblies = new List<Assembly>
             {
                 Assembly.Load(new AssemblyName("TortosaApi.Application")),
-                Assembly.Load(new AssemblyName("TortosaApi.Domain"))/*,
-                Assembly.Load(new AssemblyName("TortosaApi.Infrastructure"))*/
+                Assembly.Load(new AssemblyName("TortosaApi.Domain")),
+                Assembly.Load(new AssemblyName("TortosaApi.Infrastructure"))
             };
 
+            var allCandidates = new List<TypeInfo>();
 
-            foreach (var assembly in assemblies.Where(x => x != null))
+            foreach (var assembly in assemblies)
             {
-                services.RegisterAssemblyPublicNonGenericClasses(assembly)
-                    .Where(c => c.Name.EndsWith("AppService"))
-                    .AsPublicImplementedInterfaces();
+                var candidates = assembly.DefinedTypes.Where(c => c.IsInterface || c.IsClass /*&& (c.Name.EndsWith(APP_SERVICE_SUFFIX) || c.Name.EndsWith(REPOSITORY_SUFFIX))*/);
+                allCandidates.AddRange(candidates);
+            }
+
+            foreach (var interfaceCandidate in allCandidates.Where(c => c.IsInterface).Distinct())
+            {
+                var implementation = allCandidates.Where(t => t.ImplementedInterfaces.Contains(interfaceCandidate)).FirstOrDefault();
+                if (interfaceCandidate != null && implementation != null)
+                    services.AddScoped(interfaceCandidate, implementation);
             }
         }
 

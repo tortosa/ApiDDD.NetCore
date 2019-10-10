@@ -4,5 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\TortosaApi.Domain.csproj" />
+    <ProjectReference Include="..\Test\TestToChangeCompilationOrder.csproj" />
   </ItemGroup>
 </Project>
