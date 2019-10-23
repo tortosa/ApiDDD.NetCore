@@ -14,13 +14,7 @@ namespace TortosaApi.Infrastructure.Repository.Entities.UsersAgg
         { }
 
         // Mandatory constructor w/o parameters to generate migrations: https://docs.microsoft.com/es-es/ef/core/miscellaneous/cli/dbcontext-creation#using-a-constructor-with-no-parameters
-        public UsersDbContext()
+        private UsersDbContext()
         { }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Integrated Security=true;Initial Catalog=ApiDDD;Application Name=ApiDDD;TrustServerCertificate=True;");
-            base.OnConfiguring(optionsBuilder);
-        }
     }
 }
