@@ -29,15 +29,13 @@ namespace Application.AppServices
         public UserDtoR GetDto(int id)
         {
             var user = Get(id);
-
-            var userDto = new UserDtoR()
+            
+            return user == null ?  null : new UserDtoR()
             {
                 Id = user.Id,
                 Name = user.Name,
                 Birthdate = user.Birthdate
             };
-
-            return userDto;
         }
 
         public IEnumerable<User> GetAll()

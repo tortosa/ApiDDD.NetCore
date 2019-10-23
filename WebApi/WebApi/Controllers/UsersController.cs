@@ -33,6 +33,10 @@ namespace WebApi.Controllers
         public IActionResult Get(int id)
         {
             var result = _userAppService.GetDto(id);
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 

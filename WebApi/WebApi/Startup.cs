@@ -4,18 +4,16 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TortosaApi.Infrastructure.Repository.Entities.UsersAgg;
 
 namespace WebApi
 {
     public class Startup
     {
-
-        private const string APP_SERVICE_SUFFIX = "AppService";
-        private const string REPOSITORY_SUFFIX = "Repository";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +26,10 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // TODO @Tortosa : Automatizar los contextos
+            services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
 
             // Recordatorio:
             /*
@@ -47,10 +49,7 @@ namespace WebApi
 
              */
 
-            //services.AddScoped<IUserAppService, UserAppService>();
-
-
-            // Forma dinámica con el injector de .Net Core (veo problematico tener que referenciar Infrastructure aunque solamente sea para esto)
+            // Forma dinámica con el injector de .Net Core
             var assemblies = new List<Assembly>
             {
                 Assembly.Load(new AssemblyName("TortosaApi.Application")),
@@ -62,7 +61,7 @@ namespace WebApi
 
             foreach (var assembly in assemblies)
             {
-                var candidates = assembly.DefinedTypes.Where(c => c.IsInterface || c.IsClass /*&& (c.Name.EndsWith(APP_SERVICE_SUFFIX) || c.Name.EndsWith(REPOSITORY_SUFFIX))*/);
+                var candidates = assembly.DefinedTypes.Where(c => c.IsInterface || c.IsClass);
                 allCandidates.AddRange(candidates);
             }
 
